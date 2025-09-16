@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-900 Flashcards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card-flip {
+            transition: all 0.3s ease;
+        }
+        .card-flip:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">AI-900 Flashcards</h1>
+            <p class="text-gray-600">Simple definitions for real-world understanding</p>
+            <div id="progress" class="text-sm text-gray-500 mt-2"></div>
+        </div>
+
+        <div class="relative mb-8">
+            <div id="flashcard" class="bg-white rounded-xl shadow-lg p-8 min-h-80 cursor-pointer card-flip">
+                <div class="text-center" id="card-content">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-center items-center space-x-4 mb-6">
+            <button id="prevBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-lg transition-colors duration-200" title="Previous card">
+                ←
+            </button>
+            
+            <button id="flipBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200">
+                Show Term
+            </button>
+            
+            <button id="nextBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-lg transition-colors duration-200" title="Next card">
+                →
+            </button>
+        </div>
+
+        <div class="flex justify-center space-x-4">
+            <button id="shuffleBtn" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                🔀 Shuffle Cards
+            </button>
+            
+            <button id="resetBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
+                ↻ Reset Order
+            </button>
+        </div>
+
+        <div class="mt-8 text-center text-gray-600 text-sm">
+            <p>💡 <strong>Study Tip:</strong> Try to explain each term in your own words before flipping the card!</p>
+            <p class="mt-2">🎯 Focus on understanding real-world examples - they often appear on the exam!</p>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                term: "Artificial Intelligence (AI)",
+                definition: "Making computers smart enough to do things humans normally do - like recognizing your face in photos or understanding what you're saying."
+            },
+            {
+                term: "Machine Learning",
+                definition: "Teaching computers to learn patterns from examples, like how Netflix learns what movies you like by watching what you've enjoyed before."
+            },
+            {
+                term: "Supervised Learning",
+                definition: "Teaching a computer with examples that have the right answers - like showing it 1000 photos labeled 'cat' or 'dog' so it learns to tell them apart."
+            },
+            {
+                term: "Unsupervised Learning",
+                definition: "Letting a computer find patterns on its own without giving it the answers - like analyzing customer shopping habits to group similar buyers together."
+            },
+            {
+                term: "Classification",
+                definition: "Sorting things into categories - like email systems deciding if a message is 'spam' or 'not spam'."
+            },
+            {
+                term: "Regression",
+                definition: "Predicting numbers - like estimating how much your house is worth based on its size, location, and age."
+            },
+            {
+                term: "Computer Vision",
+                definition: "Teaching computers to 'see' and understand images - like your phone recognizing faces in photos or self-checkout scanners reading barcodes."
+            },
+            {
+                term: "Object Detection",
+                definition: "Finding and identifying specific things in pictures - like security cameras spotting people or cars in a parking lot."
+            },
+            {
+                term: "OCR (Optical Character Recognition)",
+                definition: "Converting pictures of text into actual text you can edit - like scanning a restaurant menu and being able to copy the text."
+            },
+            {
+                term: "Natural Language Processing (NLP)",
+                definition: "Helping computers understand human language - like Siri understanding when you ask 'What's the weather like?'"
+            },
+            {
+                term: "Sentiment Analysis",
+                definition: "Figuring out if text is positive, negative, or neutral - like analyzing customer reviews to see if people are happy or upset."
+            },
+            {
+                term: "Chatbot",
+                definition: "A computer program that can have conversations with people - like the chat window on websites that helps answer customer questions."
+            },
+            {
+                term: "Azure Cognitive Services",
+                definition: "Microsoft's ready-made AI tools that you can use in apps - like adding face recognition or language translation without building it from scratch."
+            },
+            {
+                term: "Custom Vision",
+                definition: "Azure's tool for teaching computers to recognize your specific things - like training it to spot defective products on your factory line."
+            },
+            {
+                term: "Form Recognizer",
+                definition: "Azure's tool that reads forms and documents - like automatically extracting information from invoices, receipts, or ID cards."
+            },
+            {
+                term: "Language Understanding (LUIS)",
+                definition: "Azure's service that helps apps understand what people want when they talk naturally - like understanding 'book me a flight to Seattle' means the person wants to travel."
+            },
+            {
+                term: "Speech Service",
+                definition: "Azure's tool for converting speech to text and text to speech - like voice dictation or making apps that can talk to you."
+            },
+            {
+                term: "Translator",
+                definition: "Azure's service that translates text between languages - like instantly converting English websites to Spanish."
+            },
+            {
+                term: "Bot Framework",
+                definition: "Microsoft's toolkit for building chatbots - like creating a customer service bot for your company's website."
+            },
+            {
+                term: "Training Data",
+                definition: "The examples you show a computer to teach it - like showing 10,000 photos of cats to teach it what cats look like."
+            },
+            {
+                term: "Overfitting",
+                definition: "When a computer memorizes its practice examples too well and can't handle new situations - like a student who memorizes practice tests but fails the real exam."
+            },
+            {
+                term: "Accuracy",
+                definition: "How often the computer gets the right answer - like correctly identifying 9 out of 10 photos."
+            },
+            {
+                term: "Feature",
+                definition: "A piece of information the computer uses to make decisions - like using a house's square footage, number of bedrooms, and age to predict its price."
+            },
+            {
+                term: "Algorithm",
+                definition: "The step-by-step instructions the computer follows to solve problems - like a recipe for making decisions."
+            },
+            {
+                term: "Neural Network",
+                definition: "A computer system inspired by how the human brain works - it has layers that process information and pass it along to make decisions."
+            },
+            {
+                term: "Deep Learning",
+                definition: "Using neural networks with many layers to solve complex problems - like recognizing speech or understanding images with incredible accuracy."
+            },
+            {
+                term: "Anomaly Detection",
+                definition: "Spotting unusual things that don't fit the normal pattern - like fraud detection noticing weird spending on your credit card."
+            },
+            {
+                term: "Entity Recognition",
+                definition: "Finding specific types of information in text - like automatically identifying people's names, companies, or dates in emails."
+            },
+            {
+                term: "Intent",
+                definition: "What a person is trying to accomplish when they talk to a bot - like wanting to 'book a meeting' or 'check the weather'."
+            },
+            {
+                term: "Responsible AI",
+                definition: "Making sure AI systems are fair, safe, and don't discriminate - like ensuring a hiring AI doesn't favor certain groups of people unfairly."
+            },
+            {
+                term: "Knowledge Mining",
+                definition: "Using AI to quickly search through and learn from huge amounts of documents and data - like automatically finding key information in thousands of company reports or legal documents."
+            },
+            {
+                term: "Generative AI",
+                definition: "AI that creates new content like text, images, or code based on what you ask for - like ChatGPT writing an essay or AI creating artwork from your description."
+            },
+            {
+                term: "Large Language Model (LLM)",
+                definition: "A type of AI trained on massive amounts of text that can understand and generate human-like language - like the technology behind ChatGPT and similar AI assistants."
+            },
+            {
+                term: "Azure OpenAI Service",
+                definition: "Microsoft's service that lets you use powerful AI models like GPT in your own applications - like adding ChatGPT-style features to your company's software."
+            },
+            {
+                term: "Prompt Engineering",
+                definition: "The skill of writing good instructions for AI to get the best results - like knowing how to ask ChatGPT questions to get exactly what you want."
+            },
+            {
+                term: "Azure Cognitive Search",
+                definition: "Microsoft's AI-powered search service that can find information across different types of documents and data - like a super-smart search engine for your company's files."
+            },
+            {
+                term: "Document Intelligence",
+                definition: "AI that understands and extracts information from documents like contracts, forms, and receipts - like automatically reading invoices and putting the data into spreadsheets."
+            },
+            {
+                term: "Endpoint",
+                definition: "The web address where your AI service can be accessed by applications - like the URL your app uses to send data to Azure's AI services."
+            },
+            {
+                term: "API Key",
+                definition: "A secret code that proves your application is allowed to use an AI service - like a password that lets your app access Azure's AI features."
+            },
+            {
+                term: "Confidence Score",
+                definition: "A number (usually 0-100%) that shows how sure the AI is about its answer - like when face recognition says it's 95% confident it found the right person."
+            },
+            {
+                term: "Batch Processing",
+                definition: "Processing lots of data all at once instead of one item at a time - like analyzing 1000 photos overnight instead of one by one during the day."
+            },
+            {
+                term: "Real-time Processing",
+                definition: "Processing data immediately as it comes in - like live translation of speech or instant fraud detection on credit card purchases."
+            },
+            {
+                term: "Cognitive Skills",
+                definition: "Pre-built AI abilities you can add to search and data processing - like automatically extracting key phrases or recognizing entities in documents."
+            },
+            {
+                term: "Skillset",
+                definition: "A collection of cognitive skills grouped together for processing data - like combining OCR, language detection, and key phrase extraction to analyze documents."
+            },
+            {
+                term: "Index",
+                definition: "An organized, searchable collection of your processed data - like a smart filing system that makes it easy to find information later."
+            },
+            {
+                term: "Indexer",
+                definition: "The process that automatically updates your search index when source data changes - like keeping your search results fresh when new documents are added."
+            },
+            {
+                term: "Multi-modal AI",
+                definition: "AI that can work with different types of data like text, images, and audio all together - like describing what's happening in a video by understanding both the visuals and sound."
+            }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        let cards = [...flashcards];
+
+        // DOM elements
+        const cardContent = document.getElementById('card-content');
+        const progress = document.getElementById('progress');
+        const flipBtn = document.getElementById('flipBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const flashcard = document.getElementById('flashcard');
+
+        function updateCard() {
+            const card = cards[currentIndex];
+            progress.textContent = `Card ${currentIndex + 1} of ${cards.length}`;
+            
+            if (!isFlipped) {
+                cardContent.innerHTML = `
+                    <div class="text-sm uppercase text-indigo-600 font-semibold mb-4">Definition</div>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-8">${card.definition}</p>
+                    <div class="text-gray-500 italic">Click to see the term</div>
+                `;
+                flipBtn.textContent = 'Show Term';
+            } else {
+                cardContent.innerHTML = `
+                    <div class="text-sm uppercase text-green-600 font-semibold mb-4">Term</div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-8">${card.term}</h2>
+                    <div class="text-gray-500 italic">Click to see definition again</div>
+                `;
+                flipBtn.textContent = 'Show Definition';
+            }
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % cards.length;
+            isFlipped = false;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            isFlipped = false;
+            updateCard();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            updateCard();
+        }
+
+        function shuffle() {
+            cards = [...cards].sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+            isFlipped = false;
+            updateCard();
+        }
+
+        function reset() {
+            cards = [...flashcards];
+            currentIndex = 0;
+            isFlipped = false;
+            updateCard();
+        }
+
+        // Event listeners
+        flipBtn.addEventListener('click', flipCard);
+        prevBtn.addEventListener('click', prevCard);
+        nextBtn.addEventListener('click', nextCard);
+        shuffleBtn.addEventListener('click', shuffle);
+        resetBtn.addEventListener('click', reset);
+        flashcard.addEventListener('click', flipCard);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ') {
+                e.preventDefault();
+                flipCard();
+            }
+        });
+
+        // Initialize
+        updateCard();
+    </script>
+</body>
+</html>
