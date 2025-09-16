@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI-900 Flashcards</title>
+  <title>AI-900 Flashcards (2025)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .card-flip {
@@ -19,7 +19,13 @@
     <div class="text-center mb-8">
       <h1 class="text-3xl font-bold text-gray-800 mb-2">AI-900 Flashcards (2025)</h1>
       <p class="text-gray-600">Simple definitions for real-world understanding</p>
-      <div id="progress" class="text-sm text-gray-500 mt-2"></div>
+      <!-- Progress section -->
+      <div class="text-sm text-gray-500 mt-2">
+        <div id="progressText"></div>
+        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+          <div id="progressBar" class="bg-indigo-600 h-2 rounded-full" style="width: 0%"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Priority Filter -->
@@ -40,11 +46,11 @@
     </div>
 
     <div class="flex justify-center items-center space-x-4 mb-6">
-      <button id="prevBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-lg transition-colors duration-200" title="Previous card">←</button>
+      <button id="prevBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-lg transition-colors duration-200">←</button>
       <button id="flipBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200">
         Show Term
       </button>
-      <button id="nextBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-lg transition-colors duration-200" title="Next card">→</button>
+      <button id="nextBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-lg transition-colors duration-200">→</button>
     </div>
 
     <div class="flex justify-center space-x-4">
@@ -115,7 +121,8 @@
     let currentFilter = 'all';
 
     const cardContent = document.getElementById('card-content');
-    const progress = document.getElementById('progress');
+    const progressText = document.getElementById('progressText');
+    const progressBar = document.getElementById('progressBar');
     const flipBtn = document.getElementById('flipBtn');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -133,12 +140,23 @@
     function updateCard() {
       if (cards.length === 0) {
         cardContent.innerHTML = '<p class="text-gray-500">No cards match the current filter</p>';
-        progress.textContent = '';
+        progressText.textContent = '';
+        progressBar.style.width = "0%";
         return;
       }
 
       const card = cards[currentIndex];
-      progress.textContent = `Card ${currentIndex + 1} of ${cards.length}`;
+      progressText.textContent = `Card ${currentIndex + 1} of ${cards.length}`;
+      progressBar.style.width = `${((currentIndex + 1) / cards.length) * 100}%`;
+
+      // Color progress bar by filter
+      if (currentFilter === 'high') {
+        progressBar.className = "bg-red-500 h-2 rounded-full";
+      } else if (currentFilter === 'medium') {
+        progressBar.className = "bg-yellow-400 h-2 rounded-full";
+      } else {
+        progressBar.className = "bg-indigo-600 h-2 rounded-full";
+      }
 
       if (!isFlipped) {
         cardContent.innerHTML = `
@@ -174,7 +192,7 @@
       [allBtn, highBtn, mediumBtn].forEach(btn => {
         btn.className = btn.className.replace('bg-indigo-600 text-white', 'text-gray-600 hover:bg-gray-100');
       });
-      
+
       if (priority === 'all') allBtn.className = allBtn.className.replace('text-gray-600 hover:bg-gray-100', 'bg-indigo-600 text-white');
       if (priority === 'high') highBtn.className = highBtn.className.replace('text-gray-600 hover:bg-gray-100', 'bg-indigo-600 text-white');
       if (priority === 'medium') mediumBtn.className = mediumBtn.className.replace('text-gray-600 hover:bg-gray-100', 'bg-indigo-600 text-white');
@@ -219,7 +237,7 @@
     shuffleBtn.addEventListener('click', shuffle);
     resetBtn.addEventListener('click', reset);
     flashcard.addEventListener('click', flipCard);
-    
+
     allBtn.addEventListener('click', () => filterCards('all'));
     highBtn.addEventListener('click', () => filterCards('high'));
     mediumBtn.addEventListener('click', () => filterCards('medium'));
