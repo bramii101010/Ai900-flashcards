@@ -39,9 +39,7 @@
 
     <div class="relative mb-8">
       <div id="flashcard" class="bg-white rounded-xl shadow-lg p-8 min-h-80 cursor-pointer card-flip">
-        <div class="text-center" id="card-content">
-          <!-- Content will be loaded here -->
-        </div>
+        <div class="text-center" id="card-content"></div>
       </div>
     </div>
 
@@ -70,49 +68,50 @@
 
   <script>
     const flashcards = [
-      { term: "Artificial Intelligence (AI)", definition: "Making computers smart enough to do things humans normally do - like recognizing your face in photos or understanding what you're saying.", priority: "high" },
-      { term: "Machine Learning", definition: "Teaching computers to learn patterns from examples, like how Netflix learns what movies you like by watching what you've enjoyed before.", priority: "high" },
-      { term: "Supervised Learning", definition: "The model is trained on "labeled" data (e.g. emails marked as spam or not spam) and Training a computer with examples that have the right answers (labeled data) - like showing it 1000 photos labeled 'cat' or 'dog'.", priority: "high" },
-      { term: "Unsupervised Learning", definition: "The model groups data without labels finding hidden patterns (like group customers by buying habits) and Letting a computer find patterns on its own without giving it the answers - like grouping customers by shopping habits.", priority: "high" },
-      { term: "Clustering", definition: "A machine learning method that groups data into clusters without labels - like segmenting customers by buying habits.", priority: "high" },
-      { term: "Classification", definition: "Sorting things into categories - like email systems deciding if a message is 'spam' or 'not spam'.", priority: "high" },
-      { term: "Regression", definition: "Predicting numbers - like estimating house prices based on size, location, and age.", priority: "high" },
-      { term: "Computer Vision", definition: "Teaching computers to 'see' and understand images - like your phone recognizing faces in photos.", priority: "high" },
-      { term: "Object Detection", definition: "Finding and identifying specific things in pictures - like security cameras spotting people or cars in a parking lot.", priority: "high" },
-      { term: "OCR (Optical Character Recognition)", definition: "Converting pictures of text into actual text you can edit - like scanning a restaurant menu.", priority: "high" },
-      { term: "Natural Language Processing (NLP)", definition: "Helping computers understand human language - like Siri understanding when you ask 'What's the weather like?'", priority: "high" },
-      { term: "Sentiment Analysis", definition: "Figuring out if text is positive, negative, or neutral - like analyzing reviews to see if people are happy or upset.", priority: "high" },
-      { term: "Entity Recognition", definition: "Finding specific types of information in text - like identifying names, companies, or dates.", priority: "high" },
-      { term: "Intent", definition: "Understanding what a person is trying to do when they type or talk - like 'book a flight' or 'check the weather'.", priority: "high" },
-      { term: "Speech Service", definition: "Converting speech to text and text to speech - like voice dictation or apps that talk back.", priority: "high" },
-      { term: "Translator", definition: "Azure's service that translates text between languages.", priority: "high" },
-      { term: "Chatbot / Conversational AI", definition: "Computer programs that talk with people - like the chat window on websites.", priority: "high" },
-      { term: "Azure Cognitive Services", definition: "Microsoft's ready-made AI tools organized into Vision, Speech, Language, and Decision categories.", priority: "high" },
-      { term: "Azure AI Language", definition: "Service that provides natural language features such as sentiment, entity recognition, and intent detection (replaces LUIS).", priority: "high" },
-      { term: "Azure AI Document Intelligence", definition: "Azure service (formerly Form Recognizer) that extracts info from documents like invoices and receipts.", priority: "high" },
-      { term: "Azure Cognitive Search", definition: "AI-powered search service that finds info across documents and data.", priority: "high" },
-      { term: "Azure AI Studio", definition: "Low-code environment to build, test, and manage generative AI apps.", priority: "high" },
-      { term: "Azure OpenAI Service", definition: "Microsoft's service that lets you use powerful AI models like GPT in your own apps.", priority: "high" },
-      { term: "Generative AI", definition: "AI that creates new content like text, images, or code based on prompts.", priority: "high" },
-      { term: "Large Language Model (LLM)", definition: "AI trained on massive amounts of text that can understand and generate human-like language.", priority: "high" },
-      { term: "Prompt Engineering", definition: "The skill of writing good instructions for AI to get the best results.", priority: "high" },
-      { term: "Grounding", definition: "Connecting AI outputs to trusted company data to make answers accurate and relevant.", priority: "high" },
-      { term: "Knowledge Mining", definition: "Using AI to search through and learn from large sets of data/documents.", priority: "high" },
-      { term: "Responsible AI: Fairness", definition: "AI should treat people equally and avoid bias based on race, gender, age, or other characteristics.", priority: "high" },
-      { term: "Responsible AI: Reliability & Safety", definition: "AI should work consistently and safely, handling errors gracefully.", priority: "high" },
-      { term: "Responsible AI: Privacy & Security", definition: "AI should protect sensitive data and respect user privacy.", priority: "high" },
-      { term: "Responsible AI: Inclusiveness", definition: "AI should be usable by everyone, including people with disabilities.", priority: "high" },
-      { term: "Responsible AI: Transparency", definition: "People should understand how AI decisions are made and what data is used.", priority: "high" },
-      { term: "Responsible AI: Accountability", definition: "Humans are responsible for AI outcomes and should be able to intervene.", priority: "high" },
-      { term: "Neural Network", definition: "A computer system inspired by the human brain, with layers that process data.", priority: "medium" },
-      { term: "Deep Learning", definition: "Using neural networks with many layers to solve complex problems like image recognition.", priority: "medium" },
-      { term: "Anomaly Detection", definition: "Spotting unusual things that don't fit normal patterns - like fraud detection or equipment failures.", priority: "medium" },
-      { term: "Overfitting", definition: "When a model memorizes training examples too well and fails on new data.", priority: "medium" },
-      { term: "Accuracy", definition: "How often the AI system gets the answer right, expressed as a percentage.", priority: "medium" },
-      { term: "Algorithm", definition: "Step-by-step instructions a computer follows to solve problems - like a recipe.", priority: "medium" },
-      { term: "Custom Vision", definition: "Azure's tool for teaching AI to recognize your specific items or scenarios.", priority: "medium" },
-      { term: "Azure Bot Service", definition: "Microsoft's service for building chatbots that connect to many channels like Teams, web, and mobile.", priority: "medium" },
-      { term: "Confidence Score", definition: "A number (usually 0-100%) showing how sure the AI is about its answer.", priority: "medium" }
+      { term: "Artificial Intelligence (AI)", definition: "Making computers smart enough to do things humans normally do.", scenario: "A car uses AI to recognize stop signs and traffic lights.", priority: "high" },
+      { term: "Machine Learning", definition: "Teaching computers to learn patterns from examples.", scenario: "Netflix recommends shows based on your past viewing habits.", priority: "high" },
+      { term: "Supervised Learning", definition: "The model is trained on labeled data (e.g. spam vs not spam).", scenario: "An email provider trains a model with labeled spam and non-spam emails.", priority: "high" },
+      { term: "Unsupervised Learning", definition: "The model groups data without labels, finding hidden patterns.", scenario: "A retailer groups shoppers by buying habits without predefined labels.", priority: "high" },
+      { term: "Clustering", definition: "Grouping data into clusters without labels.", scenario: "A marketing team segments customers into groups based on behavior.", priority: "high" },
+      { term: "Classification", definition: "Sorting things into categories.", scenario: "A bank decides if a loan application should be approved or denied.", priority: "high" },
+      { term: "Regression", definition: "Predicting numbers (continuous values).", scenario: "A real estate company predicts home prices based on features.", priority: "high" },
+      { term: "Computer Vision", definition: "Teaching AI to understand images or video.", scenario: "A factory uses AI to detect defective products on the assembly line.", priority: "high" },
+      { term: "Object Detection", definition: "Finding and identifying specific objects in images.", scenario: "Security cameras use AI to identify cars in a parking lot.", priority: "high" },
+      { term: "OCR (Optical Character Recognition)", definition: "Converting images of text into actual text.", scenario: "A receipt-scanning app extracts text from uploaded receipts.", priority: "high" },
+      { term: "Natural Language Processing (NLP)", definition: "Helping computers understand human language.", scenario: "A chatbot understands when a user asks about their order status.", priority: "high" },
+      { term: "Sentiment Analysis", definition: "Determining if text is positive, negative, or neutral.", scenario: "A company analyzes customer reviews to gauge satisfaction.", priority: "high" },
+      { term: "Entity Recognition", definition: "Identifying specific information like names, dates, or places.", scenario: "AI highlights company names in a set of news articles.", priority: "high" },
+      { term: "Intent", definition: "Understanding what a user wants to do.", scenario: "A travel bot recognizes 'Book me a flight to Seattle' as a booking request.", priority: "high" },
+      { term: "Speech Service", definition: "Converting speech to text and text to speech.", scenario: "A call center transcribes calls in real time.", priority: "high" },
+      { term: "Translator", definition: "Azure's service that translates text between languages.", scenario: "A company website offers automatic translation for global visitors.", priority: "high" },
+      { term: "Chatbot / Conversational AI", definition: "Computer programs that converse with people.", scenario: "A retail website chatbot answers product questions.", priority: "high" },
+      { term: "Azure Cognitive Services", definition: "Prebuilt AI tools grouped into Vision, Speech, Language, and Decision.", scenario: "A developer adds face recognition using Azure Cognitive Services.", priority: "high" },
+      { term: "Azure AI Language", definition: "Provides NLP features like sentiment and entity recognition (replaces LUIS).", scenario: "A support app identifies key phrases from customer complaints.", priority: "high" },
+      { term: "Azure AI Document Intelligence", definition: "Extracts info from documents (formerly Form Recognizer).", scenario: "An HR system pulls names and addresses from resumes.", priority: "high" },
+      { term: "Azure Cognitive Search", definition: "AI-powered search across documents and data.", scenario: "A law firm searches thousands of contracts for key clauses.", priority: "high" },
+      { term: "Azure AI Studio", definition: "Low-code environment to build and manage generative AI apps.", scenario: "A company prototypes a generative AI chatbot without code.", priority: "high" },
+      { term: "Azure OpenAI Service", definition: "Use powerful models like GPT in your apps.", scenario: "A helpdesk tool uses GPT to draft responses to tickets.", priority: "high" },
+      { term: "Generative AI", definition: "AI that creates new content like text, images, or code.", scenario: "AI generates marketing copy for a campaign.", priority: "high" },
+      { term: "Large Language Model (LLM)", definition: "AI trained on massive text datasets to generate language.", scenario: "A customer support bot uses an LLM to answer FAQs.", priority: "high" },
+      { term: "Prompt Engineering", definition: "The skill of writing good prompts to guide AI output.", scenario: "A user learns to phrase prompts to get accurate chatbot answers.", priority: "high" },
+      { term: "Grounding", definition: "Connecting AI outputs to trusted company data.", scenario: "An enterprise chatbot retrieves answers only from company policies.", priority: "high" },
+      { term: "Knowledge Mining", definition: "Using AI to extract insights from large datasets.", scenario: "A compliance team mines reports for mentions of regulations.", priority: "high" },
+      { term: "Responsible AI: Fairness", definition: "AI should treat people equally and avoid bias.", scenario: "A hiring AI is tested to ensure gender fairness.", priority: "high" },
+      { term: "Responsible AI: Reliability & Safety", definition: "AI should work consistently and safely.", scenario: "A medical AI is validated to ensure accurate diagnoses.", priority: "high" },
+      { term: "Responsible AI: Privacy & Security", definition: "AI should protect sensitive data.", scenario: "An app encrypts data before sending it to an AI service.", priority: "high" },
+      { term: "Responsible AI: Inclusiveness", definition: "AI should be usable by everyone.", scenario: "A speech-to-text service supports users with hearing impairments.", priority: "high" },
+      { term: "Responsible AI: Transparency", definition: "AI should be explainable and understandable.", scenario: "A bank provides explanations for AI-driven loan decisions.", priority: "high" },
+      { term: "Responsible AI: Accountability", definition: "Humans are responsible for AI outcomes.", scenario: "A company ensures employees approve final AI decisions.", priority: "high" },
+
+      { term: "Neural Network", definition: "A computer system inspired by the human brain.", priority: "medium" },
+      { term: "Deep Learning", definition: "Using neural networks with many layers to solve complex problems.", priority: "medium" },
+      { term: "Anomaly Detection", definition: "Spotting unusual data points or behavior.", priority: "medium" },
+      { term: "Overfitting", definition: "When a model memorizes training data and fails on new data.", priority: "medium" },
+      { term: "Accuracy", definition: "How often the AI gets the right answer.", priority: "medium" },
+      { term: "Algorithm", definition: "Step-by-step instructions for solving a problem.", priority: "medium" },
+      { term: "Custom Vision", definition: "Train AI to recognize custom images.", priority: "medium" },
+      { term: "Azure Bot Service", definition: "Service for building chatbots across multiple channels.", priority: "medium" },
+      { term: "Confidence Score", definition: "How sure the AI is about its prediction.", priority: "medium" }
     ];
 
     let currentIndex = 0;
@@ -149,7 +148,6 @@
       progressText.textContent = `Card ${currentIndex + 1} of ${cards.length}`;
       progressBar.style.width = `${((currentIndex + 1) / cards.length) * 100}%`;
 
-      // Color progress bar by filter
       if (currentFilter === 'high') {
         progressBar.className = "bg-red-500 h-2 rounded-full";
       } else if (currentFilter === 'medium') {
@@ -161,7 +159,8 @@
       if (!isFlipped) {
         cardContent.innerHTML = `
           <div class="text-sm uppercase text-indigo-600 font-semibold mb-2">Definition</div>
-          <p class="text-lg text-gray-700 leading-relaxed mb-6">${card.definition}</p>
+          <p class="text-lg text-gray-700 leading-relaxed mb-4">${card.definition}</p>
+          ${card.scenario ? `<div class="bg-indigo-50 border border-indigo-200 text-sm text-gray-700 p-3 rounded-md mb-4"><strong>Exam Scenario:</strong> ${card.scenario}</div>` : ""}
           <div class="text-gray-500 italic mb-2">Click to see the term</div>
           <div class="text-xs text-gray-600">${getPriorityIcon(card.priority)}</div>
         `;
@@ -188,7 +187,6 @@
       isFlipped = false;
       updateCard();
 
-      // Update button styles
       [allBtn, highBtn, mediumBtn].forEach(btn => {
         btn.className = btn.className.replace('bg-indigo-600 text-white', 'text-gray-600 hover:bg-gray-100');
       });
@@ -230,7 +228,6 @@
       filterCards(currentFilter);
     }
 
-    // Event listeners
     flipBtn.addEventListener('click', flipCard);
     prevBtn.addEventListener('click', prevCard);
     nextBtn.addEventListener('click', nextCard);
